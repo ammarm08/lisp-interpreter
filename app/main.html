@@ -1,0 +1,10 @@
+
+<div ng-controller="MainController">
+  <form name="myForm" ng-submit="eval()">
+    <input type="submit">
+  </form>
+  <br>
+  <textarea form="myForm" ng-model="expression" rows="10" cols="50"></textarea>
+
+  <div>{{syntax}}</div>
+</div>
