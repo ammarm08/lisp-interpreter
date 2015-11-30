@@ -11,14 +11,25 @@ Plus, Lisp is beautiful.
 ##### To Do #####
 
 [X] Tokenizer
+
 [X] Syntax Tree (sorta kinda)
+
 [X] Evaluation of +-*/ operations
+
 [X] Lookup table for available methods
+
 [ ] Scope and execution contexts
+
 [ ] Variables
+
 [ ] Atoms
+
 [ ] Lists
+
 [ ] Quote
+
 [ ] Conditionals
+
 [ ] Functions
+
 [ ] Other stuff
