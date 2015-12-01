@@ -18,15 +18,15 @@ Plus, Lisp is beautiful.
 
 [X] Lookup table for available methods
 
-[ ] Scope and execution contexts
+[X] Scope and execution contexts
 
-[ ] Variables
+[X] Variables
 
-[ ] Atoms
+[X] Atoms
 
-[ ] Lists
+[X] Lists
 
-[ ] Quote
+[X] Quote
 
 [ ] Conditionals
 
