@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ammarm08/lisp-interpreter#readme",
   "dependencies": {
     "body-parser": "^1.14.1",
+    "bower": "^1.6.8",
     "express": "^4.13.3"
   }
 }
