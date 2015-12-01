@@ -16,6 +16,8 @@ angular.module('app.services', [])
       return handleQuote(code);
     } else if (code[0] === "define") {
       return handleDefine(code, context);
+    } else if (code[0] === "if") {
+      return handleConditionals(code, context);
     } else if (context[code[0]]) {
       return handleProc(code, context);
     } else {
@@ -100,8 +102,24 @@ angular.module('app.services', [])
 
   var handleDefine = function (input, context) {
     var variable = input[1];
-    context[variable] = evaluate(input[2], context);
+    var exp = input[2] instanceof Array ? input.slice(1) : input[2];
+    context[variable] = evaluate(exp, context);
     return;
+  };
+  // (_, test, conseq, alt) = x
+  //       exp = (conseq if eval(test, env) else alt)
+  //       return eval(exp, env)
+
+  var handleConditionals = function (input, context) {
+    var test = input[1];
+    var then = input[2];
+    var otherwise = input[3];
+
+    if (evaluate(test, context)) {
+      return evaluate(input[2]);
+    } else {
+      return evaluate(input[3]);
+    }
   };
 
   var handleProc = function (input, context) {
@@ -124,6 +142,11 @@ angular.module('app.services', [])
       '-': subtract,
       '/': divide,
       '*': multiply,
+
+      '>': function(a, b) { return a > b; },
+      '<': function(a, b) { return a < b; },
+      '>=': function(a, b) { return a >= b; },
+      '<=': function(a, b) { return a <= b; },
 
       'car': function(list) {return list[0]; },
       'cdr': function(list) { return list.slice(1); },
