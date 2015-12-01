@@ -106,9 +106,6 @@ angular.module('app.services', [])
     context[variable] = evaluate(exp, context);
     return;
   };
-  // (_, test, conseq, alt) = x
-  //       exp = (conseq if eval(test, env) else alt)
-  //       return eval(exp, env)
 
   var handleConditionals = function (input, context) {
     var test = input[1];
