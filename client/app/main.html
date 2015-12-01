@@ -19,28 +19,28 @@
       </form>
 
       <div class="notes">
-        <h3> New to Lisp? Hit "Evaluate" After Each Step:</h3>
+        <h3> Hit "Evaluate" After Each Step. Try:</h3>
         <table class="table">
           <thead>
             <th>Steps</th>
             <th>What Lispers Say</th>
-            <th>What Us Lowly Javascripters Say...</th>
+            <th>What Javascripters Say</th>
           </thead>
           <tbody>
             <tr>
               <td> 1</td>
-              <td>(define pi 3.14)</td>
-              <td> var pi = 3.14; </td>
+              <td>(define square (lambda (x) (* x x) ))</td>
+              <td> function square (x) { return x * x; } </td>
             </tr>
             <tr>
               <td> 2</td>
-              <td>(define radius 10)</td>
-              <td> var radius = 10; </td>
+              <td>(square 3)</td>
+              <td>square(3)</td>
             </tr>
             <tr>
               <td> 3</td>
-              <td>(* pi (* radius radius))</td>
-              <td> return pi * radius * radius; </td>
+              <td>(+ (square 3) (square 4))</td>
+              <td>square(3) + square(4)</td>
             </tr>
           </tbody>
         </table>
@@ -59,24 +59,33 @@
       </form>
 
       <div class="todos">
-        <h3> A (Partial) List of Remaining Things:</h3>
+        <h3> Other Examples:</h3>
         <table class="table">
           <thead>
             <th>#</th>
-            <th></th>
+            <th>Lisp</th>
+            <th>Javascript</th>
           </thead>
           <tbody>
             <tr>
-              <td> 1</td>
-              <td>Conditionals, lambdas, closures, and local scopes</td>
+              <td>1</td>
+              <td>(car (1 2 3))</td>
+              <td>var arr = [1,2,3]; return arr[0];</td>
             </tr>
             <tr>
-              <td> 2</td>
-              <td>Multi-line inputs</td>
+              <td>2</td>
+              <td>(cons 3 4)</td>
+              <td>return [3].concat(4);</td>
             </tr>
             <tr>
-              <td> 3</td>
-              <td>Many bugs to kill</td>
+              <td>3</td>
+              <td>(* 4 (+ (/ 9 3) (- 10 2) ))</td>
+              <td>return ((9 / 3) + (10 - 2)) * 4;</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>(quote (1 2 3))</td>
+              <td>return [1 2 3]</td>
             </tr>
           </tbody>
         </table>
