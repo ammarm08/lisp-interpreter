@@ -1,12 +1,21 @@
-textarea {
-  border: 1px solid black;
-  resize: none;
-}
-
-textarea-disabled:hover {
-  cursor: pointer;
-}
-
 .main {
-  margin: 100px auto;
+  margin: 0 auto;
+}
+
+.code {
+  margin-top: 10px;
+}
+
+.sandbox, .console {
+  resize: none;
+  font-size: 16pt;
+}
+
+.console {
+  color: lime;
+  background-color: black;
+}
+
+h1 {
+  margin: 5px auto;
 }

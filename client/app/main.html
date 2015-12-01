@@ -1,12 +1,17 @@
 
 <div class = "main" ng-controller="MainController">
 
-  <div class = "row">
+  <div>
+    <h1>LispAngular</h1>
+    <a href="https://github.com/ammarm08/lisp-interpreter"> code on github</a>
+  </div>
+
+  <div class = "row code">
 
     <div class = "col-sm-6">
 
       <div class = "form-group">
-        <textarea class="form-control" form="myForm" ng-model="expression" rows="10" cols="50"></textarea>
+        <textarea class="form-control sandbox" form="myForm" ng-model="expression" rows="10" cols="50"></textarea>
       </div>
 
       <form name="myForm" ng-submit="eval()">
@@ -35,7 +40,7 @@
             <tr>
               <td> 3</td>
               <td>(* pi (* radius radius))</td>
-              <td> return pi * radius * radius </td>
+              <td> return pi * radius * radius; </td>
             </tr>
           </tbody>
         </table>
@@ -44,12 +49,39 @@
     </div>
 
     <div class = "col-sm-6">
+
       <div class = "form-group"> 
-        <textarea disabled class="form-control" form="evalScreen" rows="10" cols="50">{{console}}</textarea>
+        <textarea class="form-control console" form="evalScreen" rows="10" cols="50">{{console}}</textarea>
       </div>
+
       <form name="evalScreen" ng-submit="clear()">
         <button type="submit" class="btn btn-default form-control"> Clear Console </button>
       </form>
+
+      <div class="todos">
+        <h3> A (Partial) List of Remaining Things:</h3>
+        <table class="table">
+          <thead>
+            <th>#</th>
+            <th>What Lispers Say</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td> 1</td>
+              <td>Conditionals, lambdas, closures, and local scopes</td>
+            </tr>
+            <tr>
+              <td> 2</td>
+              <td>Multi-line inputs</td>
+            </tr>
+            <tr>
+              <td> 3</td>
+              <td>Many bugs to kill</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
 
   </div>
