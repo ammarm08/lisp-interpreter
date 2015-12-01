@@ -2,6 +2,9 @@
 <html ng-app='app'>
   <head>
     <meta charset="utf-8" />
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <script src="lib/angular/angular.js"></script>
@@ -11,8 +14,8 @@
     <script src="app/main.js"></script>
     <script src="app/app.js"></script>
 
-    <div ng-view>
-      
+    <div class = "container">
+      <div ng-view></div>
     </div>
     
   </body>

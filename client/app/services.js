@@ -8,7 +8,7 @@ angular.module('app.services', [])
 
   var evaluate = function(code, context) {
 
-    if (code === "window" || "context") {
+    if (typeof code === "string" && code === "context") {
       return context;
     } else if (typeof code === "number") {
       return code;

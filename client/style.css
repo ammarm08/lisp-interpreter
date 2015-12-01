@@ -1,0 +1,12 @@
+textarea {
+  border: 1px solid black;
+  resize: none;
+}
+
+textarea-disabled:hover {
+  cursor: pointer;
+}
+
+.main {
+  margin: 100px auto;
+}

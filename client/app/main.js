@@ -2,11 +2,16 @@ angular.module('app.main', [])
 .controller('MainController', ['$scope', 'Lisper', function($scope, Lisper) {
   //stuff
   $scope.expression = '';
-  $scope.syntax = '';
+  $scope.console = '';
 
   $scope.eval = function() {
-    $scope.syntax = Lisper.interpret($scope.expression);
+    $scope.console += Lisper.interpret($scope.expression) + '\n';
+    $scope.expression = '';
   };
+
+  $scope.clear = function() {
+    $scope.console = '';
+  }
 
 
 }]);
