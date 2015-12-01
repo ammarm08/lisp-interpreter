@@ -24,12 +24,7 @@ angular.module('app.services', [])
     } else if (typeof code === "string") {
       return context[code] || "undefined";
     } else if (code[0] === "quote") {
-      var rest = code.slice(1);
-      if (rest[0] instanceof Array) {
-        return "(" + rest[0].join(" ") + ")";
-      } else {
-        return rest.join(" ");
-      }
+      return handleQuote(code);
     }
 
   };
@@ -102,6 +97,15 @@ angular.module('app.services', [])
     return args.reduce(function(total, current) {
       return total /= current;
     }, start);
+  };
+
+  var handleQuote = function (input) {
+    var rest = input.slice(1);
+    if (rest[0] instanceof Array) {
+      return "(" + rest[0].join(" ") + ")";
+    } else {
+      return rest.join(" ");
+    }
   };
 
   var defaultContext = function () {
