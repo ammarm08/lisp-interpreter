@@ -8,18 +8,18 @@ angular.module('app.services', [])
 
   var evaluate = function(code, context) {
 
-    if (typeof code === "string" && code === "context") {
-      return context;
-    } else if (typeof code === "number") {
+    if (typeof code === "number") {
       return code;
     } else if (typeof code === "string") {
       return context[code] || "undefined";
     } else if (code[0] === "quote") {
       return handleQuote(code);
     } else if (code[0] === "define") {
-      return handleDefunc(code, context);
-    } else {
+      return handleDefine(code, context);
+    } else if (context[code[0]]) {
       return handleProc(code, context);
+    } else {
+      return handleList(code, context);
     }
 
   };
@@ -95,18 +95,12 @@ angular.module('app.services', [])
   };
 
   var handleQuote = function (input) {
-    var rest = input.slice(1);
-    if (rest[0] instanceof Array) {
-      return "(" + rest[0].join(" ") + ")";
-    } else {
-      return rest.join(" ");
-    }
+    return rest = input.slice(1);
   };
 
-  var handleDefunc = function (input, context) {
+  var handleDefine = function (input, context) {
     var variable = input[1];
     context[variable] = evaluate(input[2], context);
-    console.log(context[variable]);
     return;
   };
 
@@ -114,7 +108,15 @@ angular.module('app.services', [])
     var proc = evaluate(input[0], context);
     var args = input.slice(1).map( function(item) {return evaluate(item, context); });
     return proc.apply(this, args);
-  }
+  };
+
+  var handleList = function (input, context) {
+    var result = [];
+    for (var i = 0; i < input.length; i++) {
+      result.push(evaluate(input[i], context));
+    }
+    return result;
+  };
 
   var defaultContext = function () {
     return {
@@ -122,7 +124,8 @@ angular.module('app.services', [])
       '-': subtract,
       '/': divide,
       '*': multiply,
-      'car': function(list) { return list[0]; },
+
+      'car': function(list) {return list[0]; },
       'cdr': function(list) { return list.slice(1); },
       'cons': function(a, b) { return [a].concat(b); },
       'eq?': function(a, b) { return a === b; },
