@@ -4,7 +4,8 @@
   "description": "A (work in progress) Lisp interpreter for the web.",
   "main": "app.js",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
