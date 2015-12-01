@@ -8,17 +8,28 @@ angular.module('app.services', [])
 
   var evaluate = function(code, context) {
 
-    var current = code instanceof Array ? code.shift() : code;
-    console.log(globalContext);
+    // var current = code instanceof Array ? code.shift() : code;
 
-    if (context[current]) {
-      var args = code.map(function(item) { return evaluate(item, context); });
-      console.log(args);
-      return context[current](args);
-    } else if (current instanceof Array) {
-      return evaluate(current, context);
-    } else {
+    // if (context[current]) {
+    //   var args = code.map(function(item) { return evaluate(item, context); });
+    //   return context[current].apply(this, args);
+    // } else if (current instanceof Array) {
+    //   return evaluate(current, context);
+    // } else {
+    //   return code;
+    // }
+
+    if (typeof code === "number") {
       return code;
+    } else if (typeof code === "string") {
+      return context[code] || "undefined";
+    } else if (code[0] === "quote") {
+      var rest = code.slice(1);
+      if (rest[0] instanceof Array) {
+        return "(" + rest[0].join(" ") + ")";
+      } else {
+        return rest.join(" ");
+      }
     }
 
   };
@@ -61,32 +72,32 @@ angular.module('app.services', [])
     }
   };
 
-  var add = function (input) {
-    var args = input.slice();
+  var add = function () {
+    var args = Array.prototype.slice.call(arguments);
     var start = args.shift();
     return args.reduce(function(total, current) {
       return total += current;
     }, start);
   };
 
-  var subtract = function (input) {
-    var args = input.slice();
+  var subtract = function () {
+    var args = Array.prototype.slice.call(arguments);
     var start = args.shift();
     return args.reduce(function(total, current) {
       return total -= current;
     }, start);
   };
 
-  var multiply = function (input) {
-    var args = input.slice();
+  var multiply = function () {
+    var args = Array.prototype.slice.call(arguments);
     var start = args.shift();
     return args.reduce(function(total, current) {
       return total *= current;
     }, start);
   };
 
-  var divide = function (input) {
-    var args = input.slice();
+  var divide = function () {
+    var args = Array.prototype.slice.call(arguments);
     var start = args.shift();
     return args.reduce(function(total, current) {
       return total /= current;
@@ -113,35 +124,14 @@ angular.module('app.services', [])
       'null?': function(input) { return input === null; },
       'number?': function(input) { return typeof input === 'number'; },
       'procedure?': function(input) { return typeof input === 'function'; },
-      'symbol?': function(input) { return typeof input === 'string'; }
+      'symbol?': function(input) { return typeof input === 'string'; },
     }
   };
 
   var globalContext = defaultContext();
 
-  // def eval(x, env=global_env):
-  //     "Evaluate an expression in an environment."
-  //     if isinstance(x, Symbol):      # variable reference
-  //         return env[x]
-  //     elif not isinstance(x, List):  # constant literal
-  //         return x                
-  //     elif x[0] == 'quote':          # (quote exp)
-  //         (_, exp) = x
-  //         return exp
-  //     elif x[0] == 'if':             # (if test conseq alt)
-  //         (_, test, conseq, alt) = x
-  //         exp = (conseq if eval(test, env) else alt)
-  //         return eval(exp, env)
-  //     elif x[0] == 'define':         # (define var exp)
-  //         (_, var, exp) = x
-  //         env[var] = eval(exp, env)
-  //     else:                          # (proc arg...)
-  //         proc = eval(x[0], env)
-  //         args = [eval(arg, env) for arg in x[1:]]
-  //         return proc(*args)
-
   return {
-    interpet : interpret
+    interpret : interpret
   }
 
 })
