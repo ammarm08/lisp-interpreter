@@ -1,0 +1,23 @@
+{
+  "name": "lisp-interpreter",
+  "description": "A (work in progress) Lisp interpreter for the web.",
+  "main": "app.js",
+  "authors": [
+    "Ammar Mian"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ammarm08/lisp-interpreter",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "lisp-interpreter",
+  "version": "1.0.0",
+  "description": "A (work in progress) Lisp interpreter for the web.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "postinstall": "bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ammarm08/lisp-interpreter.git"
+  },
+  "author": "Ammar Mian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ammarm08/lisp-interpreter/issues"
+  },
+  "homepage": "https://github.com/ammarm08/lisp-interpreter#readme",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3"
+  }
+}
