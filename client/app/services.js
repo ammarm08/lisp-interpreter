@@ -111,14 +111,14 @@ angular.module('app.services', [])
     }
   };
 
-  var handleProc = function (input, context, execution) {
+  var handleProc = function (input, context) {
     
     var scopeVariable = context[input[0]];
     var proc;
     var args;
 
     if (scopeVariable[0] instanceof Lambda) {
-      return scopeVariable[0].call(input.slice(1));
+      return scopeVariable[0].call(input.slice(1), context);
     } else {
       proc = evaluate(input[0], context);
       args = input.slice(1).map( function(item) {return evaluate(item, context); });
@@ -141,19 +141,22 @@ angular.module('app.services', [])
     return result;
   };
 
-  var Lambda = function(params, body, context) {
+  var Lambda = function(params, body) {
     this.params = params;
     this.body = body;
 
-    this.scope = context;
-
-    this.call = function (args) {
-      for (var i = 0; i < this.params.length; i++) {
-        if (!this.scope[this.params[i]]) {
-          this.scope[this.params[i]] = args[i];
-        }
+    this.call = function (args, context) {
+      var execution = {};
+      
+      for (var key in context) {
+        execution[key] = context[key];
       }
-      return evaluate(this.body, this.scope);
+
+      for (var i = 0; i < this.params.length; i++) {
+        execution[this.params[i]] = args[i];
+      }
+
+      return evaluate(this.body, execution);
     };
 
   };
