@@ -7,10 +7,7 @@
   ],
   "license": "ISC",
   "homepage": "https://github.com/ammarm08/lisp-interpreter",
-  "moduleType": [
-    "es6",
-    "node"
-  ],
+  "moduleType": [],
   "private": true,
   "ignore": [
     "**/.*",
