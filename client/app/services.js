@@ -11,13 +11,15 @@ angular.module('app.services', [])
     if (typeof code === "number") {
       return code;
     } else if (typeof code === "string") {
-      return context[code] || "undefined";
+      return context[code] || undefined;
     } else if (code[0] === "quote") {
       return handleQuote(code);
     } else if (code[0] === "define") {
       return handleDefine(code, context);
     } else if (code[0] === "if") {
       return handleConditionals(code, context);
+    } else if (code[0] === "lambda") {
+      return handleLambdas(code, context);
     } else if (context[code[0]]) {
       return handleProc(code, context);
     } else {
@@ -102,9 +104,9 @@ angular.module('app.services', [])
 
   var handleDefine = function (input, context) {
     var variable = input[1];
-    var exp = input[2] instanceof Array ? input.slice(1) : input[2];
-    context[variable] = evaluate(exp, context);
-    return;
+    var expression = input[2] instanceof Array ? input.slice(2) : input[2];
+    context[variable] = evaluate(expression, context);
+    return variable;
   };
 
   var handleConditionals = function (input, context) {
@@ -120,9 +122,39 @@ angular.module('app.services', [])
   };
 
   var handleProc = function (input, context) {
-    var proc = evaluate(input[0], context);
-    var args = input.slice(1).map( function(item) {return evaluate(item, context); });
-    return proc.apply(this, args);
+    
+    var scopeVariable = context[input[0]];
+    var proc;
+    var args;
+
+    if (scopeVariable[0] instanceof Lambda) {
+      return scopeVariable[0].call(input.slice(1));
+    } else {
+      proc = evaluate(input[0], context);
+      args = input.slice(1).map( function(item) {return evaluate(item, context); });
+      return proc.apply(this, args);
+    }
+
+  };
+
+  var handleLambdas = function (input, context) {
+    var params = input[1];
+    var body = input[2];
+    return new Lambda(params, body, context);
+  };
+
+  var Lambda = function(params, body, context) {
+    this.params = params;
+    this.body = body;
+
+    this.scope = context;
+
+    this.call = function (args) {
+      for (var i = 0; i < this.params.length; i++) {
+        this.scope[this.params[i]] = args[i];
+      }
+      return evaluate(this.body, this.scope);
+    };
   };
 
   var handleList = function (input, context) {
@@ -144,17 +176,18 @@ angular.module('app.services', [])
       '<': function(a, b) { return a < b; },
       '>=': function(a, b) { return a >= b; },
       '<=': function(a, b) { return a <= b; },
+      'eq?': function(a, b) { return a === b; },
 
       'car': function(list) {return list[0]; },
       'cdr': function(list) { return list.slice(1); },
       'cons': function(a, b) { return [a].concat(b); },
-      'eq?': function(a, b) { return a === b; },
       'length': function(list) { return list.length || null; },
       'list': function() {},
       'list?': function(input) {return input instanceof Array; },
       'map': function(list, callback) { return list.map(callback); },
       'max': function(list) { return list.sort(function(a,b) {return a - b})[0]; },
       'min': function(list) { return list.sort(function(a,b) {return a - b})[list.length-1]; },
+
       'not': function(input) { return !input; },
       'null?': function(input) { return input === null; },
       'number?': function(input) { return typeof input === 'number'; },
