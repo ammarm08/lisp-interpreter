@@ -8,23 +8,18 @@ angular.module('app.services', [])
 
   var evaluate = function(code, context) {
 
-    // var current = code instanceof Array ? code.shift() : code;
-
-    // if (context[current]) {
-    //   var args = code.map(function(item) { return evaluate(item, context); });
-    //   return context[current].apply(this, args);
-    // } else if (current instanceof Array) {
-    //   return evaluate(current, context);
-    // } else {
-    //   return code;
-    // }
-
-    if (typeof code === "number") {
+    if (code === "window" || "context") {
+      return context;
+    } else if (typeof code === "number") {
       return code;
     } else if (typeof code === "string") {
       return context[code] || "undefined";
     } else if (code[0] === "quote") {
       return handleQuote(code);
+    } else if (code[0] === "define") {
+      return handleDefunc(code, context);
+    } else {
+      return handleProc(code, context);
     }
 
   };
@@ -107,6 +102,19 @@ angular.module('app.services', [])
       return rest.join(" ");
     }
   };
+
+  var handleDefunc = function (input, context) {
+    var variable = input[1];
+    context[variable] = evaluate(input[2], context);
+    console.log(context[variable]);
+    return;
+  };
+
+  var handleProc = function (input, context) {
+    var proc = evaluate(input[0], context);
+    var args = input.slice(1).map( function(item) {return evaluate(item, context); });
+    return proc.apply(this, args);
+  }
 
   var defaultContext = function () {
     return {
