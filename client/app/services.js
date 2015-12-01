@@ -1,8 +1,17 @@
 angular.module('app.services', [])
 .factory('Lisper', function() {
 
+  /*
+  "Interpret" does the following
+
+  1) Tokenizes expression: "tokenize"
+  2) Builds syntax tree: "buildTree"
+  3) Evaluates the tree: "evaluate"
+
+  */
+
   var interpret = function(expression) {
-    var code = readFromTokens(tokenize(expression));
+    var code = buildTree(tokenize(expression));
     return evaluate(code, globalContext);
   };
 
@@ -28,14 +37,7 @@ angular.module('app.services', [])
 
   };
 
-  var tokenize = function(expression) {
-    return expression.replace(/\(/g, ' ( ')
-                     .replace(/\)/g, ' ) ')
-                     .trim()
-                     .split(/\s+/);
-  };
-
-  var readFromTokens = function(tokens) {
+  var buildTree = function(tokens) {
 
     if (!tokens.length) {
       throw "No tokens found.";
@@ -47,7 +49,7 @@ angular.module('app.services', [])
     if (token === '(') {
       list = [];
       while (tokens[0] !== ')') {
-        list.push(readFromTokens(tokens));
+        list.push(buildTree(tokens));
       }
       tokens.shift();
       return list;
@@ -66,37 +68,25 @@ angular.module('app.services', [])
     }
   };
 
-  var add = function () {
-    var args = Array.prototype.slice.call(arguments);
-    var start = args.shift();
-    return args.reduce(function(total, current) {
-      return total += current;
-    }, start);
+  var tokenize = function(expression) {
+    return expression.replace(/\(/g, ' ( ')
+                     .replace(/\)/g, ' ) ')
+                     .trim()
+                     .split(/\s+/);
   };
 
-  var subtract = function () {
-    var args = Array.prototype.slice.call(arguments);
-    var start = args.shift();
-    return args.reduce(function(total, current) {
-      return total -= current;
-    }, start);
-  };
+  /*
+  Evaluation handlers:
 
-  var multiply = function () {
-    var args = Array.prototype.slice.call(arguments);
-    var start = args.shift();
-    return args.reduce(function(total, current) {
-      return total *= current;
-    }, start);
-  };
+  i) If Quote: "handleQuote"
+  ii) If Variable Definition: "handleDefine"
+  iii) If Conditional Phrase: "handleConditionals"
+  iv) If Proc or Function Invocation: "handleProc"
+  v) If Lambda Definition: "handleLambdas"
+  vi) If List: "handleList"
+  vii) Lamdba class that encloses scope: "Lambda"
 
-  var divide = function () {
-    var args = Array.prototype.slice.call(arguments);
-    var start = args.shift();
-    return args.reduce(function(total, current) {
-      return total /= current;
-    }, start);
-  };
+  */
 
   var handleQuote = function (input) {
     return rest = input.slice(1);
@@ -143,6 +133,14 @@ angular.module('app.services', [])
     return new Lambda(params, body, context);
   };
 
+  var handleList = function (input, context) {
+    var result = [];
+    for (var i = 0; i < input.length; i++) {
+      result.push(evaluate(input[i], context));
+    }
+    return result;
+  };
+
   var Lambda = function(params, body, context) {
     this.params = params;
     this.body = body;
@@ -160,12 +158,41 @@ angular.module('app.services', [])
 
   };
 
-  var handleList = function (input, context) {
-    var result = [];
-    for (var i = 0; i < input.length; i++) {
-      result.push(evaluate(input[i], context));
-    }
-    return result;
+  /*
+  "Built-In" Operations:
+  All of these functions exist in the global scope: ("defaultContext")
+  */
+
+  var add = function () {
+    var args = Array.prototype.slice.call(arguments);
+    var start = args.shift();
+    return args.reduce(function(total, current) {
+      return total += current;
+    }, start);
+  };
+
+  var subtract = function () {
+    var args = Array.prototype.slice.call(arguments);
+    var start = args.shift();
+    return args.reduce(function(total, current) {
+      return total -= current;
+    }, start);
+  };
+
+  var multiply = function () {
+    var args = Array.prototype.slice.call(arguments);
+    var start = args.shift();
+    return args.reduce(function(total, current) {
+      return total *= current;
+    }, start);
+  };
+
+  var divide = function () {
+    var args = Array.prototype.slice.call(arguments);
+    var start = args.shift();
+    return args.reduce(function(total, current) {
+      return total /= current;
+    }, start);
   };
 
   var defaultContext = function () {
