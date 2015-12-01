@@ -115,13 +115,13 @@ angular.module('app.services', [])
     var otherwise = input[3];
 
     if (evaluate(test, context)) {
-      return evaluate(input[2]);
+      return evaluate(then);
     } else {
-      return evaluate(input[3]);
+      return evaluate(otherwise);
     }
   };
 
-  var handleProc = function (input, context) {
+  var handleProc = function (input, context, execution) {
     
     var scopeVariable = context[input[0]];
     var proc;
@@ -151,10 +151,13 @@ angular.module('app.services', [])
 
     this.call = function (args) {
       for (var i = 0; i < this.params.length; i++) {
-        this.scope[this.params[i]] = args[i];
+        if (!this.scope[this.params[i]]) {
+          this.scope[this.params[i]] = args[i];
+        }
       }
       return evaluate(this.body, this.scope);
     };
+
   };
 
   var handleList = function (input, context) {
