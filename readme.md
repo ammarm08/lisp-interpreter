@@ -28,8 +28,8 @@ Plus, Lisp is beautiful.
 
 [X] Quote
 
-[ ] Conditionals
+[X] Conditionals
 
-[ ] Functions
+[ ] Functions/Lambdas
 
 [ ] Other stuff
