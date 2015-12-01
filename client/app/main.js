@@ -5,7 +5,7 @@ angular.module('app.main', [])
   $scope.console = '';
 
   $scope.eval = function() {
-    $scope.console += Lisper.interpret($scope.expression) + '\n';
+    $scope.console += '=>' + Lisper.interpret($scope.expression) + '\n';
     $scope.expression = '';
   };
 
