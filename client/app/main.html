@@ -8,10 +8,38 @@
       <div class = "form-group">
         <textarea class="form-control" form="myForm" ng-model="expression" rows="10" cols="50"></textarea>
       </div>
-      
+
       <form name="myForm" ng-submit="eval()">
         <button type="submit" class="btn btn-default form-control"> Evaluate </button>
       </form>
+
+      <div class="notes">
+        <h3> New to Lisp? Hit "Evaluate" After Each Step:</h3>
+        <table class="table">
+          <thead>
+            <th>Steps</th>
+            <th>What Lispers Say</th>
+            <th>What Us Lowly Javascripters Say...</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td> 1</td>
+              <td>(define pi 3.14)</td>
+              <td> var pi = 3.14; </td>
+            </tr>
+            <tr>
+              <td> 2</td>
+              <td>(define radius 10)</td>
+              <td> var radius = 10; </td>
+            </tr>
+            <tr>
+              <td> 3</td>
+              <td>(* pi (* radius radius))</td>
+              <td> return pi * radius * radius </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
     </div>
 
