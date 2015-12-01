@@ -2,7 +2,7 @@
 
 A (work in progress) Lisp interpreter for the web.
 
-Angular on the front, Node server on the back. Deployment coming soon.
+Angular on the front, Node server on the back.
 
 Inspired by Peter Norvig's Python interpreter and Mary Rose Cook's JS interpreter.
 
