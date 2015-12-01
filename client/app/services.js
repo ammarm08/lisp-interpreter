@@ -1,7 +1,7 @@
 angular.module('app.services', [])
-.factory('Interpreter', function() {
+.factory('Lisper', function() {
 
-  var parse = function(expression) {
+  var interpret = function(expression) {
     var code = readFromTokens(tokenize(expression));
     return evaluate(code, globalContext);
   };
@@ -141,7 +141,7 @@ angular.module('app.services', [])
   //         return proc(*args)
 
   return {
-    parse : parse
+    interpet : interpret
   }
 
 })
