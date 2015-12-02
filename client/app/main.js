@@ -1,17 +1,21 @@
-angular.module('app.main', [])
-.controller('MainController', ['$scope', 'Lisper', function($scope, Lisper) {
-  //stuff
-  $scope.expression = '';
-  $scope.console = '';
+(function() {
+    'use strict';
 
-  $scope.eval = function() {
-    $scope.console += '=>' + Lisper.interpret($scope.expression) + '\n';
-    $scope.expression = '';
-  };
+    angular
+        .module('app.main', [])
+        .controller('MainController', ['$scope', 'Lisper', mainController]);
 
-  $scope.clear = function() {
-    $scope.console = '';
-  }
+    function mainController($scope, Lisper) {
+      $scope.expression = '';
+      $scope.console = '';
 
+      $scope.eval = function() {
+        $scope.console += '=> ' + Lisper.interpret($scope.expression) + '\n';
+        $scope.expression = '';
+      };
 
-}]);
+      $scope.clear = function() {
+        $scope.console = '';
+      }
+    }
+})();
