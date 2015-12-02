@@ -30,6 +30,6 @@ Plus, Lisp is beautiful.
 
 [X] Conditionals
 
-[ ] Functions/Lambdas
+[x] Functions/Lambdas
 
-[ ] Other stuff
+[TBD] Other stuff
