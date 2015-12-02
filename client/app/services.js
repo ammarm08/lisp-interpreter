@@ -15,7 +15,7 @@ angular.module('app.services', [])
     return evaluate(code, globalContext);
   };
 
-  var evaluate = function(code, context) {
+  var evaluate = function(code, context, args) {
 
     if (typeof code === "number") {
       return code;
@@ -30,7 +30,7 @@ angular.module('app.services', [])
     } else if (code[0] === "lambda") {
       return handleLambdas(code, context);
     } else if (context[code[0]]) {
-      return handleProc(code, context);
+      return handleProc(code, context, args);
     } else {
       return handleList(code, context);
     }
@@ -95,7 +95,10 @@ angular.module('app.services', [])
   var handleDefine = function (input, context) {
     var variable = input[1];
     var expression = input[2] instanceof Array ? input.slice(2) : input[2];
-    context[variable] = evaluate(expression, context);
+    var value = evaluate(expression, context);
+
+    context[variable] = value[0] instanceof Lambda ? value[0] : value;
+
     return variable;
   };
 
@@ -111,20 +114,15 @@ angular.module('app.services', [])
     }
   };
 
-  var handleProc = function (input, context) {
-    
-    var scopeVariable = context[input[0]];
-    var proc;
-    var args;
+  // Implemented closures here with the "args" parameter.
+  // If "args" hasn't been passed through, then we set them.
+  // Otherwise, we use the existing "args" and pass them around the interpreter.
 
-    if (scopeVariable[0] instanceof Lambda) {
-      return scopeVariable[0].call(input.slice(1), context);
-    } else {
-      proc = evaluate(input[0], context);
-      args = input.slice(1).map( function(item) {return evaluate(item, context); });
-      return proc.apply(this, args);
-    }
-
+  var handleProc = function (input, context, args) {
+  
+    var proc = evaluate(input[0], context);
+    var args = args || input.slice(1).map( function(item) { return evaluate(item, context); });
+    return proc instanceof Lambda ? proc.call(context, args) : proc.apply(this, args);
   };
 
   var handleLambdas = function (input, context) {
@@ -144,19 +142,16 @@ angular.module('app.services', [])
   var Lambda = function(params, body) {
     this.params = params;
     this.body = body;
+    this.scope = {};
 
-    this.call = function (args, context) {
-      var execution = {};
-      
-      for (var key in context) {
-        execution[key] = context[key];
-      }
+    this.call = function (context, args) {
+      this.scope = context;
 
       for (var i = 0; i < this.params.length; i++) {
-        execution[this.params[i]] = args[i];
+        this.scope[this.params[i]] = args[i];
       }
 
-      return evaluate(this.body, execution);
+      return evaluate(this.body, this.scope);
     };
 
   };
