@@ -1,6 +1,7 @@
 ### Lisp Interpreter in JS ###
+### A (work in progress) Lisp interpreter for the web. ###
 
-A (work in progress) Lisp interpreter for the web.
+![Alt text](lisp-interpreter.gif "LispAngular Walkthrough")
 
 Angular on the front, Node server on the back.
 
