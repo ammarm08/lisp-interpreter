@@ -4,9 +4,11 @@ A (work in progress) Lisp interpreter for the web.
 
 Angular on the front, Node server on the back.
 
-Inspired by Peter Norvig's Python interpreter and Mary Rose Cook's JS interpreter.
+Inspired by Peter Norvig's Python and Mary Rose Cook's JS interpreters.
 
 Plus, Lisp is beautiful.
+
+The sandbox currently only supports evaluation one line at a time (sorry!)
 
 ##### To Do #####
 
@@ -30,6 +32,6 @@ Plus, Lisp is beautiful.
 
 [X] Conditionals
 
-[ ] Functions/Lambdas
+[x] Functions/Lambdas
 
-[ ] Other stuff
+[] Advanced stuff
