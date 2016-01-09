@@ -39,8 +39,13 @@
             </tr>
             <tr>
               <td> 3</td>
-              <td>(+ (square 3) (square 4))</td>
-              <td>square(3) + square(4)</td>
+              <td>(define sumSquares (lambda (x y) (+ (square x) (square y) )))</td>
+              <td>function sumSquares (x, y) { return square(x) + square(y); }</td>
+            </tr>
+            <tr>
+              <td> 3</td>
+              <td>(sumSquares 4 5)</td>
+              <td>sumSquares(4, 5)</td>
             </tr>
           </tbody>
         </table>
@@ -59,33 +64,24 @@
       </form>
 
       <div class="todos">
-        <h3> Other Examples:</h3>
+        <h3> Built-In Functions:</h3>
         <table class="table">
           <thead>
-            <th>#</th>
-            <th>Lisp</th>
-            <th>Javascript</th>
+            <th>Type</th>
+            <th>Functions</th>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
-              <td>(car (1 2 3))</td>
-              <td>var arr = [1,2,3]; return arr[0];</td>
+              <td>Basic Operations and Comparators</td>
+              <td>"+, -, /, *, >, <, >=, <=, eq?"</td>
             </tr>
             <tr>
-              <td>2</td>
-              <td>(cons 3 4)</td>
-              <td>return [3].concat(4);</td>
+              <td>List Operations</td>
+              <td>"car, cdr, cons, length, list, list?, map, max, min</td>
             </tr>
             <tr>
-              <td>3</td>
-              <td>(* 4 (+ (/ 9 3) (- 10 2) ))</td>
-              <td>return ((9 / 3) + (10 - 2)) * 4;</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>(quote (1 2 3))</td>
-              <td>return [1 2 3]</td>
+              <td>Others</td>
+              <td>"not, null?, number?, procedure?, symbol?"</td>
             </tr>
           </tbody>
         </table>
