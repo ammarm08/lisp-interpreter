@@ -8,7 +8,7 @@ exports.config = {
   /**
    * Array of application names.
    */
-  app_name: ['Graffiti'],
+  app_name: ['Lisp-Angular'],
   /**
    * Your New Relic license key.
    */
